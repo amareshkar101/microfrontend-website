@@ -2,7 +2,7 @@ import { mount } from "auth/AuthApp";
 import React, { useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-export default () => {
+export default ({ onSignIn }) => {
   const ref = useRef(null);
   const history = useHistory(); // Browser history object from container app
 
@@ -17,6 +17,7 @@ export default () => {
           history.push(nextPathName);
         }
       },
+      onSignIn,
     });
 
     history.listen(onParentNavigate); // Notify marketing app of navigations in container app
