@@ -1,7 +1,10 @@
-import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import MarketingApp from "./components/MarketingApp";
+import React, { lazy, Suspense } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./components/Header";
+import Progress from "./components/Progress";
+
+const LazyAuthApp = lazy(() => import("./components/AuthApp"));
+const LazyMarketingApp = lazy(() => import("./components/MarketingApp"));
 import {
   StylesProvider,
   createGenerateClassName,
@@ -16,7 +19,12 @@ export default () => {
     <StylesProvider generateClassName={generateClassName}>
       <Router>
         <Header />
-        <MarketingApp />
+        <Suspense fallback={<Progress />}>
+          <Switch>
+            <Route path="/auth" component={LazyAuthApp} />
+            <Route path="/" component={LazyMarketingApp} />
+          </Switch>
+        </Suspense>
       </Router>
     </StylesProvider>
   );
